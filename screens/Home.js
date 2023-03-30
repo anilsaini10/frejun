@@ -4,6 +4,8 @@ import axios from "axios";
 import CardComp from "../components/CardComp";
 import { useDispatch, useSelector } from "react-redux";
 import { updateData } from "../redux/reducers/reducers";
+import Icon from "react-native-vector-icons/AntDesign";
+import styles from "./Home.style";
 
 const HomeScreen = () => {
 
@@ -20,8 +22,8 @@ const HomeScreen = () => {
     const getUsers = () => {
         setIsLoading(true);
         axios.get(`https://randomuser.me/api/?page=${currentPage}&results=10`)
-            .then(res => {
-                const curr = [...currentReduxData, ...res.data.results];
+        .then(res => {
+            const curr = [...currentReduxData, ...res.data.results];
                 dispatch(updateData(curr));
                 setIsLoading(false);
             });
@@ -29,7 +31,10 @@ const HomeScreen = () => {
 
     const renderItem = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => { setShowModal(true); setCurrentModalData(item) }} >
+            <TouchableOpacity 
+            onPress={() => { setShowModal(true); setCurrentModalData(item) }}
+             style={styles.cardMargin}
+             >
                 <CardComp data={item} />
             </TouchableOpacity>
         );
@@ -73,6 +78,11 @@ const HomeScreen = () => {
     return (
         <>
             <StatusBar backgroundColor="#000" />
+
+            <TouchableOpacity onPress={() => { setCurrentPage(1); getUsers(); }} style={styles.reloadButton} >
+                <Icon name="reload1" color={"black"} size={20} />
+            </TouchableOpacity>
+
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -101,6 +111,7 @@ const HomeScreen = () => {
                     </View>
                 </View>
             </Modal>
+
             <FlatList
                 data={currentReduxData}
                 renderItem={renderItem}
@@ -115,85 +126,6 @@ const HomeScreen = () => {
     );
 };
 
-const styles = StyleSheet.create({
-    loaderStyle: {
-        marginVertical: 16,
-        alignItems: "center",
-    },
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-        width: "90%",
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-    },
-    buttonOpen: {
-        backgroundColor: '#F194FF',
-    },
-    buttonClose: {
-        backgroundColor: '#2196F3',
-    },
-    modalText: {
-        marginBottom: 15,
-        color: "black",
-        fontWeight: "bold"
-    },
-    modalText2: {
-        marginBottom: 15,
-    },
-    modalRow: {
-        flexDirection: "row",
-        width: "80%",
-        justifyContent: "space-between",
-    },
-    leftSide: {
-        width: "40%",
-        height: "100%",
-    },
-    rightSide: {
-        width: "60%",
-    },
-    modalTitle: {
-        color: "black",
-        fontWeight: "800",
-        fontSize: 25,
-        marginBottom: "8%"
-    },
-    closeButton: {
-        width: 100,
-        height: 40,
-        borderRadius: 15,
-        backgroundColor: "red",
-        justifyContent: "center",
-        marginTop: 80
-    },
-    closeText: {
-        color: "white",
-        fontWeight: "800",
-        fontSize: 18,
-        alignSelf: "center"
-    }
 
-});
 
 export default HomeScreen;

@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
     image: {
         width: "100%",
         height: 200,
-        resizeMode: "stretch",
-        backgroundColor: "yellow",
+        resizeMode: "contain",
+        backgroundColor: "#D3D3D3",
     },
     smallContainer: {
         flexDirection: "row",
