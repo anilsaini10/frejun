@@ -3,12 +3,39 @@ import { FlatList, Text, View, TextInput, StyleSheet, TouchableOpacity } from "r
 import { useSelector } from "react-redux";
 import ListComp from "../components/ListCard";
 import products from "../helper/constants";
+import Icon from "react-native-vector-icons/AntDesign";
 
 const ListScreen = () => {
 
   const [list, setList] = useState();
   const [searchField, setSearchField] = useState();
   const [showClear, setShowClear] = useState(false);
+  const [_sort, setSort] = useState(false);
+
+  const handleSort = () => {
+    setSort(!_sort);
+    let currentList = list;
+    currentList = currentList.sort(function (a, b) {
+      if (_sort) {
+        if (a.title < b.title) {
+          return -1;
+        }
+        if (a.title > b.title) {
+          return 1;
+        }
+      } else {
+        if (a.title < b.title) {
+          return 1;
+        }
+        if (a.title > b.title) {
+          return -1;
+        }
+      }
+
+    });
+    setList(currentList);
+    console.log(currentList[0])
+  }
 
   const handleFiltter = () => {
     if (!searchField || searchField.length == 0) {
@@ -47,6 +74,11 @@ const ListScreen = () => {
           <TouchableOpacity onPress={() => { handleFiltter(); }} style={styles.searchButton} >
             <Text style={[styles.buttonText, { color: "white" }]} >Search</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => { handleSort(); }} style={[styles.searchButton, { width: 50 }]} >
+            <Icon name={`${!_sort ? "arrowup" : "arrowdown"}`} size={20} color="white" />
+          </TouchableOpacity>
+
           {showClear ? (<TouchableOpacity onPress={() => { handleClear(); }} style={styles.clearButton} >
             <Text style={styles.buttonText} >Clear</Text>
           </TouchableOpacity>) : (
