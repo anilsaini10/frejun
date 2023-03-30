@@ -12,24 +12,27 @@ import BridgingScreen from './Bridging';
 
 const Tab = createBottomTabNavigator();
 
-function HomeApp() {  
+function HomeApp() {
 
     return (
         <NavigationContainer>
             <Tab.Navigator
+                screenOptions={{ headerTitleAlign: "center" }}
             >
-                <Tab.Screen name="HomeScreen" component={HomeScreen} options={{
-                    tabBarLabel: 'Home',
-                    tabBarIcon: ({ color, size }) => {
-                        return (
-                            <Icon name="home" color={"black"} size={20} />
-                        )
-                    }
-                }}
-                />
-                <Tab.Screen name="ListScreen" component={ListScreen}
+                <Tab.Screen name="Home" component={HomeScreen}
                     options={{
                         tabBarLabel: 'Home',
+                        tabBarIcon: ({ color, size }) => {
+                            return (
+                                <Icon name="home" color={"black"} size={20} />
+                            )
+                        },
+
+                    }}
+                />
+                <Tab.Screen name="List" component={ListScreen}
+                    options={{
+                        tabBarLabel: 'List',
                         tabBarIcon: ({ color, size }) => {
                             return (
                                 <List name="list" color={"black"} size={20} />
@@ -37,9 +40,9 @@ function HomeApp() {
                         }
                     }}
                 />
-                <Tab.Screen name="BridgingScreen" component={BridgingScreen}
+                <Tab.Screen name="Bridging" component={BridgingScreen}
                     options={{
-                        tabBarLabel: 'Home',
+                        tabBarLabel: 'Bridge',
                         tabBarIcon: ({ color, size }) => {
                             return (
                                 <Icon name="flag" color={"black"} size={20} />
